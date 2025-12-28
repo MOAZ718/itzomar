@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>itz_omar</title>
+</head>
+<body>
+
+  <!-- --- Header / Hero / About / Works / Contact (original site) --- -->
+  <header>
+    <img src="assets/svg/phone.svg" alt="MusaabK99 logo" />
+    <nav class="navigation">
+      <ul>
+        <li><a href="#aboutMe">About Me</a></li>
+        <li><a href="#MyWorks">My Works</a></li>
+        <li><a href="#contactMe">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <hr />
+
+  <section class="hero">
+    <img class="arrow" src="assets/svg/arrow.svg" alt="arrow" />
+    <div class="herosup">
+      <h1 class="name">I’m Omar</h1>
+      <h1 class="title">trust dealar</h1>
+      <div class="heroBtns">
+        <a class="hireMe" href="#contactMe">Hire me</a>
+      </div>
+    </div>
+    <img src="assets/svg/hero.svg" alt="hero image" class="heroImg" />
+  </section>
+
+  <section class="aboutMe" id="aboutMe">
+    <img src="assets/svg/AboutMe.svg" alt="aboutMe image" class="aboutMeImg" />
+    <div class="textContainer">
+      <div class="textTitle">
+        <h1 class="aboutName">About</h1>
+        <h1 class="aboutTitle">me</h1>
+        <img src="assets/svg/lightbulb.svg" alt="light" class="light" />
+      </div>
+      <p class="aboutMePar">
+        The most trust dealar in roblox and i'm have a best brice to robux and brantots
+      </p>
+    </div>
+  </section>
+
+  <section class="works" id="MyWorks">
+    <div class="worksContainer">
+      <div class="projectTitle">
+        <h1 class="aboutName">My recent</h1>
+        <h1 class="aboutTitle">works</h1>
+      </div>
+      <ul>
+        <li>
+          <a href=""><img src="assets/imgs/landingpage.png" alt="Landing Page" /></a>
+        </li>
+        <li>
+          <a href=""><img src="assets/imgs/webApp.png" alt="Web App" /></a>
+        </li>
+        <li>
+          <a href=""><img src="assets/imgs/App.png" alt="App" /></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="contactContainer" id="contactMe">
+    <div class="contactTitle">
+      <h1 class="aboutName">Contact</h1>
+      <h1 class="aboutTitle">me</h1>
+    </div>
+    <div class="contact">
+      <div class="emailAndPhone">
+        <a href="mailto:aljnmr706@gmail.com"><h3>aljnmr706@gmail.com</h3></a>
+      </div>
+      <div class="emailAndPhon">
+        <h3>+20 1287754157</h3>
+      </div>
+    </div>
+    <div class="facebook">
+      <h3>https://www.facebook.com/share/1E9Q5FtKuG/</h3>
+    </div>
+  </section>
+
+  <hr />
+  <footer>
+    <p>Omar — good luck</p>
+  </footer>
+
+  <!-- --- Poll & Comments (Arabic RTL app extracted from the file) --- -->
+  <section id="pollSection" dir="rtl" lang="ar">
+    <div class="container">
+      <div class="card" id="pollCard">
+        <h1 id="pollQuestion">ما رأيك في واجهة المستخدم الجديدة؟</h1>
+        <div class="meta" id="pollMeta">شارك الآن — النتائج تظهر فورًا</div>
+
+        <form id="pollForm" class="poll-options" aria-label="خيارات الاستطلاع">
+          <!-- OPTIONS تُبنى ديناميكياً -->
+        </form>
+
+        <div style="margin-top:12px;">
+          <button id="voteBtn" class="vote-btn">صوّت</button>
+          <span style="margin-inline-start:12px" class="small">المصوتون: <strong id="totalVotes">0</strong></span>
+        </div>
+
+        <div class="results" id="resultsArea" aria-live="polite"></div>
+      </div>
+
+      <div class="card" id="commentsCard">
+        <h1>التعليقات</h1>
+        <div class="meta">اكتب تعليقك أو رد على تعليقات الآخرين</div>
+
+        <div class="comments-area">
+          <div style="margin-top:12px;" class="comment-form" id="commentForm">
+            <input type="text" id="username" placeholder="اسمك (اختياري)" />
+            <textarea id="commentText" placeholder="اكتب تعليقك هنا... (حتى 500 حرف)"></textarea>
+            <div class="comment-actions">
+              <button id="addCommentBtn" class="vote-btn">أضف تعليق</button>
+              <button id="clearFormBtn" class="btn-secondary">مسح</button>
+              <div style="margin-inline-start:auto" class="small">التعليقات: <span id="commentsCount">0</span></div>
+            </div>
+          </div>
+
+          <div class="comments-list" id="commentsList" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Script (poll + comments logic) --- -->
+  <script>
+    // بيانات تجريبية ابتدائية — يمكنك تعديلها أو ربطها بقاعدة بيانات
+    const POLL_STORAGE_KEY = 'pollData_v1';
+    const COMMENTS_STORAGE_KEY = 'pollComments_v1';
+
+    const defaultPoll = {
+      id: 'poll-1',
+      question: 'ما رأيك في واجهة المستخدم الجديدة؟',
+      options: [
+        { id: 'o1', label: 'رائعة 👌', votes: 12 },
+        { id: 'o2', label: 'جيدة إلى حدٍ ما 🙂', votes: 7 },
+        { id: 'o3', label: 'تحتاج تحسين 👎', votes: 3 },
+        { id: 'o4', label: 'لا أعلم / محايد 🤷', votes: 2 }
+      ]
+    };
+
+    // --- utilities ---
+    const el = id => document.getElementById(id);
+    function savePoll(poll){ localStorage.setItem(POLL_STORAGE_KEY, JSON.stringify(poll)); }
+    function loadPoll(){ return JSON.parse(localStorage.getItem(POLL_STORAGE_KEY) || 'null') || defaultPoll; }
+    function saveComments(list){ localStorage.setItem(COMMENTS_STORAGE_KEY, JSON.stringify(list)); }
+    function loadComments(){ return JSON.parse(localStorage.getItem(COMMENTS_STORAGE_KEY) || '[]'); }
+    function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+    function timeAgo(ts){
+      const diff = Math.floor((Date.now() - ts)/1000);
+      if(diff < 10) return 'الآن';
+      if(diff < 60) return `${diff} ثانية`;
+      if(diff < 3600) return `${Math.floor(diff/60)} دقيقة`;
+      if(diff < 86400) return `${Math.floor(diff/3600)} ساعة`;
+      return `${Math.floor(diff/86400)} يوم`;
+    }
+    function initials(name){
+      if(!name) return 'مستخدم';
+      return name.trim().split(/\s+/).slice(0,2).map(n=>n[0]).join('').toUpperCase();
+    }
+
+    // --- Poll render & actions ---
+    let poll = loadPoll();
+    const pollForm = el('pollForm');
+    const resultsArea = el('resultsArea');
+    const totalVotesEl = el('totalVotes');
+
+    function renderPoll(){
+      el('pollQuestion').textContent = poll.question;
+      pollForm.innerHTML = '';
+      poll.options.forEach(opt=>{
+        const div = document.createElement('label');
+        div.className = 'option';
+        div.innerHTML = `
+          <input type="radio" name="pollOption" value="${opt.id}" />
+          <div class="label">
+            <div>${opt.label}</div>
+          </div>
+          <div class="small" style="min-width:72px; text-align:center;">${opt.votes} صوت</div>
+        `;
+        pollForm.appendChild(div);
+      });
+      renderResults();
+    }
+
+    function renderResults(){
+      const total = poll.options.reduce((s,o)=>s+o.votes,0);
+      totalVotesEl.textContent = total;
+      resultsArea.innerHTML = '';
+      poll.options.forEach(opt=>{
+        const percent = total ? Math.round((opt.votes/total)*100) : 0;
+        const node = document.createElement('div');
+        node.innerHTML = `
+          <div style="display:flex;justify-content:space-between; align-items:center; gap:10px;">
+            <div class="small">${opt.label}</div>
+            <div class="small">${percent}% — ${opt.votes} صوت</div>
+          </div>
+          <div class="bar"><i style="width:${percent}%;"></i></div>
+        `;
+        resultsArea.appendChild(node);
+      });
+    }
+
+    el('voteBtn').addEventListener('click', (e)=>{
+      e.preventDefault();
+      const selected = document.querySelector('input[name="pollOption"]:checked');
+      if(!selected){ alert('اختر خيارًا أولاً'); return; }
+      const id = selected.value;
+      const opt = poll.options.find(o=>o.id===id);
+      if(!opt) return;
+      opt.votes++;
+      savePoll(poll);
+      renderPoll();
+      // يمكنك هنا أن ترسل الطلب للسيرفر عبر fetch لحفظ التصويت بصورة دائمة
+    });
+
+    // --- Comments render & actions ---
+    let comments = loadComments(); // array of comment objects
+    // comment model: {id, parentId|null, name, text, createdAt, likes}
+
+    const commentsList = el('commentsList');
+    const commentsCount = el('commentsCount');
+
+    function renderComments(){
+      commentsList.innerHTML = '';
+      const topLevel = comments.filter(c=>!c.parentId).sort((a,b)=>b.createdAt-a.createdAt);
+      commentsCount.textContent = comments.length;
+      topLevel.forEach(c => {
+        commentsList.appendChild(createCommentNode(c));
+      });
+    }
+
+    function createCommentNode(c){
+      const wrap = document.createElement('div');
+      wrap.className = 'comment';
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar';
+      avatar.textContent = initials(c.name || 'مستخدم');
+
+      const body = document.createElement('div');
+      body.className = 'comment-body';
+      const top = document.createElement('div');
+      top.className = 'comment-top';
+
+      const left = document.createElement('div');
+      left.innerHTML = `<div class="comment-author">${c.name || 'مستخدم مجهول'}</div><div class="small">${timeAgo(c.createdAt)}</div>`;
+
+      const right = document.createElement('div');
+      right.innerHTML = `<div class="small">${c.likes || 0} ❤</div>`;
+      top.appendChild(left);
+      top.appendChild(right);
+
+      const text = document.createElement('div');
+      text.className = 'comment-text';
+      text.textContent = c.text;
+
+      const controls = document.createElement('div');
+      controls.className = 'comment-controls';
+      // actions: like, reply, edit, delete
+      const likeBtn = document.createElement('button');
+      likeBtn.className = 'link-btn';
+      likeBtn.textContent = 'إعجاب';
+      likeBtn.onclick = () => { c.likes = (c.likes||0)+1; saveAndRerender(); };
+
+      const replyBtn = document.createElement('button');
+      replyBtn.className = 'link-btn';
+      replyBtn.textContent = 'رد';
+      replyBtn.onclick = () => openReplyBox(c.id, wrap);
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'link-btn';
+      editBtn.textContent = 'تعديل';
+      editBtn.onclick = () => openEditBox(c, text);
+
+      const delBtn = document.createElement('button');
+      delBtn.className = 'link-btn';
+      delBtn.style.color = 'var(--danger)';
+      delBtn.textContent = 'حذف';
+      delBtn.onclick = () => {
+        if(confirm('هل تود حذف هذا التعليق؟')) {
+          // حذف التعليق وكل الردود التابعة له
+          comments = comments.filter(x => x.id !== c.id && x.parentId !== c.id);
+          saveAndRerender();
+        }
+      };
+
+      controls.appendChild(likeBtn);
+      controls.appendChild(replyBtn);
+      controls.appendChild(editBtn);
+      controls.appendChild(delBtn);
+
+      body.appendChild(top);
+      body.appendChild(text);
+      body.appendChild(controls);
+
+      // replies
+      const replies = comments.filter(x=>x.parentId===c.id).sort((a,b)=>a.createdAt-b.createdAt);
+      if(replies.length){
+        const repliesWrap = document.createElement('div');
+        repliesWrap.className = 'reply';
+        replies.forEach(r => {
+          const node = document.createElement('div');
+          node.className = 'comment';
+          node.style.marginInlineStart = '0';
+          const av2 = document.createElement('div');
+          av2.className = 'avatar';
+          av2.textContent = initials(r.name || 'مستخدم');
+          const bd2 = document.createElement('div');
+          bd2.className = 'comment-body';
+          bd2.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${r.name||'مستخدم'}</strong><div class="small">${timeAgo(r.createdAt)}</div></div><div class="small">${r.likes||0} ❤</div></div><div class="comment-text">${escapeHtml(r.text)}</div>`;
+          const ctr2 = document.createElement('div');
+          ctr2.className = 'comment-controls';
+          const like2 = document.createElement('button');
+          like2.className = 'link-btn'; like2.textContent='إعجاب'; like2.onclick=()=>{ r.likes=(r.likes||0)+1; saveAndRerender(); };
+          const del2 = document.createElement('button'); del2.className='link-btn'; del2.textContent='حذف'; del2.style.color='var(--danger)'; del2.onclick=()=>{ if(confirm('حذف الرد؟')){ comments = comments.filter(x => x.id !== r.id); saveAndRerender(); } };
+          ctr2.appendChild(like2); ctr2.appendChild(del2);
+          bd2.appendChild(ctr2);
+          node.appendChild(av2); node.appendChild(bd2);
+          repliesWrap.appendChild(node);
+        });
+        body.appendChild(repliesWrap);
+      }
+
+      wrap.appendChild(avatar);
+      wrap.appendChild(body);
+      return wrap;
+    }
+
+    function openReplyBox(parentId, afterNode){
+      if(afterNode.querySelector('.reply-box')) return;
+      const box = document.createElement('div');
+      box.className = 'reply-box';
+      box.style.marginTop = '8px';
+      box.innerHTML = `
+        <input class="inline-edit" placeholder="اسمك (اختياري)" />
+        <textarea class="inline-edit" placeholder="اكتب ردك..." style="min-height:70px"></textarea>
+        <div style="display:flex; gap:8px; margin-top:6px;">
+          <button class="vote-btn">نشر الرد</button>
+          <button class="btn-secondary">إلغاء</button>
+        </div>
+      `;
+      const nameInput = box.querySelector('input');
+      const txt = box.querySelector('textarea');
+      const publish = box.querySelector('.vote-btn');
+      const cancel = box.querySelector('.btn-secondary');
+      publish.onclick = ()=>{
+        const text = txt.value.trim();
+        if(!text){ alert('اكتب ردًا قبل النشر'); return; }
+        const comment = { id: uid(), parentId, name: nameInput.value.trim(), text, createdAt: Date.now(), likes: 0 };
+        comments.push(comment);
+        saveAndRerender();
+      };
+      cancel.onclick = ()=> box.remove();
+      afterNode.appendChild(box);
+      txt.focus();
+    }
+
+    function openEditBox(comment, textNode){
+      const edit = document.createElement('div');
+      edit.style.display = 'flex';
+      edit.style.flexDirection = 'column';
+      edit.style.gap = '8px';
+      const ta = document.createElement('textarea');
+      ta.className = 'inline-edit';
+      ta.value = comment.text;
+      const actions = document.createElement('div');
+      actions.style.display='flex'; actions.style.gap='8px';
+      const save = document.createElement('button');
+      save.className = 'vote-btn'; save.textContent='حفظ';
+      const cancel = document.createElement('button'); cancel.className='btn-secondary'; cancel.textContent='إلغاء';
+      actions.appendChild(save); actions.appendChild(cancel);
+      edit.appendChild(ta); edit.appendChild(actions);
+      textNode.replaceWith(edit);
+      ta.focus();
+      save.onclick = ()=>{
+        const v = ta.value.trim();
+        if(!v){ alert('التعليق لا يمكن أن يكون فارغًا'); return; }
+        comment.text = v;
+        saveAndRerender();
+      };
+      cancel.onclick = ()=> saveAndRerender();
+    }
+
+    function escapeHtml(s){
+      if(!s) return '';
+      return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    }
+
+    function saveAndRerender(){
+      saveComments(comments);
+      renderComments();
+    }
+
+    // form actions
+    el('addCommentBtn').addEventListener('click', (e)=>{
+      e.preventDefault();
+      const name = el('username').value.trim();
+      const text = el('commentText').value.trim();
+      if(!text){ alert('اكتب تعليقًا قبل النشر'); return; }
+      if(text.length > 500){ alert('الحد الأقصى 500 حرف'); return; }
+      const comment = { id: uid(), parentId: null, name, text, createdAt: Date.now(), likes: 0 };
+      comments.push(comment);
+      saveComments(comments);
+      el('commentText').value = '';
+      el('username').value = '';
+      renderComments();
+    });
+
+    el('clearFormBtn').addEventListener('click', (e)=>{
+      e.preventDefault();
+      el('commentText').value = '';
+      el('username').value = '';
+    });
+
+    // initial render
+    renderPoll();
+    renderComments();
+
+    // للمطوّر: دالة لإعادة ضبط البيانات (للاختبار)
+    window.__resetDemoData = function(){
+      localStorage.removeItem(POLL_STORAGE_KEY);
+      localStorage.removeItem(COMMENTS_STORAGE_KEY);
+      poll = loadPoll();
+      comments = [];
+      savePoll(poll);
+      saveComments(comments);
+      renderPoll();
+      renderComments();
+      alert('تم إعادة البناء إلى بيانات توضيحية');
+    };
+  </script>
+</body>
+</html>

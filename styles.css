@@ -288,4 +288,75 @@ footer {
     gap: 1rem;
     margin-right: 0;
   }
+  :root{
+  --bg:#f7f8fb; --card:#fff; --accent:#0b79d0; --muted:#6b7280;
+  --success:#16a34a; --danger:#ef4444;
+}
+
+/* Basic page / layout styles (you can extend these to style the English part) */
+body{
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  background: #fff;
+  margin: 0;
+  color: #111;
+}
+
+/* --- Poll & Comments app styles --- */
+body[dir="rtl"], #pollSection[dir="rtl"] { direction: rtl; }
+
+.container{
+  max-width:900px; margin:20px auto; padding:0 12px;
+}
+.card{background:var(--card); border-radius:10px; padding:18px; box-shadow:0 4px 12px rgba(15,23,42,0.06); margin-bottom:18px;}
+h1{margin:0 0 10px 0; font-size:20px;}
+.poll-options{display:flex; flex-direction:column; gap:10px; margin-top:12px;}
+.option{display:flex; align-items:center; gap:10px; padding:8px; border-radius:8px; border:1px solid #e6e9ef;}
+.option input[type="radio"]{width:18px; height:18px;}
+.option .label{flex:1;}
+.vote-btn{background:var(--accent); color:white; border:none; padding:10px 14px; border-radius:8px; cursor:pointer;}
+.vote-btn:disabled{opacity:0.6; cursor:not-allowed;}
+.results{margin-top:12px;}
+.bar{height:12px; background:#e6e9ef; border-radius:999px; overflow:hidden; margin-top:6px;}
+.bar > i{display:block; height:100%; background:linear-gradient(90deg,var(--accent),#3aa0ff);}
+.meta{font-size:13px; color:var(--muted); margin-top:6px;}
+
+/* comments */
+.comments-area{margin-top:6px;}
+.comment-form{display:flex; gap:10px; flex-direction:column;}
+.comment-form textarea{min-height:80px; resize:vertical; padding:10px; border-radius:8px; border:1px solid #010b1f; font-size:14px;}
+.comment-form input[type="text"]{padding:10px; border-radius:8px; border:1px solid #636f88;}
+.comment-actions{display:flex; gap:8px; justify-content:flex-start; align-items:center; margin-top:6px;}
+.btn-secondary{background:#808997; border:1px solid #8d94ac; padding:8px 10px; border-radius:8px; cursor:pointer;}
+.comments-list{margin-top:14px; display:flex; flex-direction:column; gap:12px;}
+.comment{display:flex; gap:10px; align-items:flex-start;}
+.avatar{width:44px;height:44px;border-radius:50%;background:#818a97;display:flex;align-items:center;justify-content:center;font-weight:700;color:#024;flex-shrink:0;}
+.comment-body{flex:1;background:#86919c;padding:10px;border-radius:8px;border:1px solid #606a8b;}
+.comment-top{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.comment-author{font-weight:700;}
+.comment-text{margin-top:6px; white-space:pre-wrap; }
+.comment-controls{margin-top:8px; display:flex; gap:8px; align-items:center; font-size:13px; color:var(--muted);}
+.link-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:4px 6px;border-radius:6px;}
+.like-count{color:var(--accent); font-weight:700;}
+.reply{margin-right:54px; margin-top:8px; display:flex; flex-direction:column; gap:8px;}
+.small{font-size:13px;color:var(--muted);}
+.inline-edit{width:100%; padding:8px; border-radius:6px; border:1px solid #020a16;}
+
+@media (max-width:600px){ .option{padding:10px} .avatar{width:40px;height:40px} }
+
+/* --- Minimal styles for the initial English site (so layout looks acceptable) --- */
+header{display:flex; align-items:center; justify-content:space-between; padding:12px 18px; background:#fafafa; border-bottom:1px solid #eee;}
+header img{height:36px;}
+.navigation ul{list-style:none; display:flex; gap:12px; margin:0; padding:0;}
+.navigation a{color:#111; text-decoration:none; font-weight:600;}
+.hero{display:flex; align-items:center; gap:20px; padding:40px 18px; background:linear-gradient(180deg,#f8fbff,#fff);}
+.heroImg{max-width:260px; width:100%; height:auto;}
+.hero .name{font-size:32px; margin:0;}
+.hero .title{font-size:18px; margin:0; color:var(--muted);}
+.hireMe{display:inline-block; margin-top:8px; background:var(--accent); color:#fff; padding:8px 12px; border-radius:8px; text-decoration:none;}
+.aboutMe{display:flex; gap:18px; padding:28px 18px; align-items:center;}
+.aboutMeImg{max-width:220px; width:100%; height:auto;}
+.works ul{display:flex; gap:12px; list-style:none; padding:18px; margin:0;}
+.works img{width:220px; height:auto; border-radius:8px; display:block;}
+.contactContainer{padding:28px 18px;}
+footer{padding:18px; text-align:center; background:#fafafa; border-top:1px solid #eee;}
 }
